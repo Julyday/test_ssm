@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.julyday.dao.UserDao">
+	<resultMap type="com.julyday.domain.User" id="UserResult">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+	</resultMap>
+	
+	<sql id="col">
+		id,name,password
+	</sql>
+
+	<insert id="insert" useGeneratedKeys="true" >
+		insert into user(name,password) values (#{name,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="find" resultMap="UserResult">
+		SELECT <include refid="col"/> FROM user WHERE id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="getList" parameterType="com.julyday.domain.User" resultMap="UserResult">
+		SELECT <include refid="col"/> FROM user
+		<where>
+			<if test="name != null and !&quot;&quot;.equals(name.trim())">
+	  			name = #{name,jdbcType=VARCHAR}
+	  		</if>
+	  		<if test="password != null and !&quot;&quot;.equals(password.trim())">
+	  			and password = #{password,jdbcType=VARCHAR}
+	  		</if>
+		</where>
+	</select>
+	
+	<update id="update">
+		update user 
+		<set>
+			<if test="name != null and !&quot;&quot;.equals(name.trim())">
+	  			name = #{name,jdbcType=VARCHAR},
+	  		</if>
+	  		<if test="password != null and !&quot;&quot;.equals(password.trim())">
+	  			password = #{password,jdbcType=VARCHAR}
+	  		</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<delete id="delete">
+		delete from user where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+</mapper>
