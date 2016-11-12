@@ -57,12 +57,5 @@
     	<property name="connectionProperties" value="druid.stat.mergeSql=true" />  
 	</bean>
 
-	<!-- myBatis文件 -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
-		<property name="typeAliasesPackage" value="com.julyday.domain" />
-		<!-- 显式指定Mapper文件位置 -->
-		<property name="mapperLocations" value="classpath*:/mapping/*.xml" />
-	</bean>
+
 </beans>
